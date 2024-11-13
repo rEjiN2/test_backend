@@ -2,9 +2,10 @@
   "name": "najeeb",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+ "main": "api/index.js",
   "scripts": {
-    "start": "nodemon api/index.js"
+    "start": "nodemon api/index.js",
+    "dev": "node server.js"
   },
   "keywords": [],
   "author": "",
