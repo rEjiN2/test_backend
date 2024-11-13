@@ -1,18 +1,17 @@
+// api/index.js
 const express = require("express");
 const CryptoJS = require("crypto-js");
 const dotenv = require("dotenv");
 const cors = require("cors");
+
 const app = express();
 
 dotenv.config();
 
-// Enable CORS for all routes
 app.use(cors());
-
-// Middleware to parse JSON request bodies
 app.use(express.json());
 
-app.post("/decrypt", (req, res) => {
+app.post("/api/decrypt", (req, res) => {
     const { body } = req;
     console.log(body, "Request body");
 
@@ -21,20 +20,17 @@ app.post("/decrypt", (req, res) => {
     const iv = CryptoJS.enc.Utf8.parse(process.env.iv);
     
     try {
-        // Decrypt with proper configuration
         const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key, {
             iv: iv,
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         });
         
-        // Convert to UTF8 string
         const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
         
         if (decryptedText) {
             console.log("Decrypted successfully:", decryptedText);
             
-            // If the result is JSON, parse it
             try {
                 const jsonData = JSON.parse(decryptedText);
                 console.log("Parsed JSON:", jsonData);
@@ -53,6 +49,5 @@ app.post("/decrypt", (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log("Server started on port 3000");
-});
+// Export the Express API
+module.exports = app;
